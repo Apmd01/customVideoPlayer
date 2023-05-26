@@ -7,27 +7,45 @@ const timestamp = document.getElementById('timestamp');
 // play and pause
 
 function toggleVideoStatus() {
- if (video.paused) {
-    play(); 
- } else {
-    pause();
- }
+    if (video.paused) {
+        video.play();
+    } else {
+        video.pause();
+    }
 }
 
 function updatePlayIcon() {
-    return true;
+    if(video.paused) {
+        play.innerHTML = '<i class="fa fa-play fa-2x"></i>';
+    } else {
+        play.innerHTML = '<i class="fa fa-pause fa-2x"></i>';
+    }
 }
 
 function updateprogress() {
-    return true;
+    progress.value = (video.currentTime / video.duration) * 100;
 }
 
 function stopVideo() {
-    return true;
+    video.currentTime = 0;
+    video.pause();
 }
 
 function setVideoProgress() {
-    return true;
+    video.currentTime = (+progress.value * video.duration) / 100;
+
+    //grab minutes
+    let mins = Math.floor(video.currentTime / 60);
+    if (mins < 10) {
+        mins = '0' + String(mins);
+    }
+
+    let secs = Math.floor(video.currentTime % 60);
+    if (secs < 10) {
+        secs = '0' + String(secs);
+    }
+
+    timestamp.innerHTML = `${mins}:${secs}`
 }
 
 video.addEventListener('click', toggleVideoStatus);
